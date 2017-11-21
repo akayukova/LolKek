@@ -63,9 +63,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    \r\n");
       out.write("\t<form action=\"/index/form\" method=\"POST\">\r\n");
       out.write("\t\t<table>\r\n");
-      out.write("\t\t\t<tr><td>REQUEST_ID</td><td><input name=\"taskId\" type=\"int\" /></td></tr>\r\n");
-      out.write("\t\t\t<tr><td>MASTER_ID</td><td><input name=\"masterId\" type=\"text\" /></td></tr>\r\n");
-      out.write("\t\t\t<tr><td>CASE_ID</td><td><input name=\"caseId\" type=\"text\" /></td></tr>\r\n");
       out.write("\t\t\t<tr><td>CASE_TEXT</td><td><input name=\"caseText\" type=\"text\" /></td></tr>\r\n");
       out.write("\t\t\t<tr><td>CASE_STATUS</td><td><input name=\"caseStatus\" type=\"text\" /></td></tr>\r\n");
       out.write("\t\t\t<tr><td>CASE_DURING_TIME</td><td><input name=\"caseExecuteBefore\" type=\"text\" /></td></tr>\r\n");

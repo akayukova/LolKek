@@ -23,7 +23,7 @@ public class Task {
 	@Column(name = "case_id")
 	private Long caseId;
 
-	@Column(name = "case_text")
+/*	@Column(name = "case_text")
 	private String caseText;
 
 	@Column(name = "case_status")
@@ -42,7 +42,7 @@ public class Task {
 	private String userFirstName;
 
 	@Column(name = "user_last_name")
-	private String userLastName;
+	private String userLastName;*/
 
 	// Getters
 
@@ -58,7 +58,7 @@ public class Task {
 		return caseId;
 	}
 
-	public String getCaseText() {
+	/*public String getCaseText() {
 		return caseText;
 	}
 
@@ -84,7 +84,7 @@ public class Task {
 
 	public String getUserLastName() {
 		return userLastName;
-	}
+	}*/
 
 	// --- Setters
 
@@ -100,7 +100,7 @@ public class Task {
 		caseId = caseIdS;
 	}
 
-	public void setCaseText(String caseTextS) {
+	/*public void setCaseText(String caseTextS) {
 		caseText = caseTextS;
 	}
 
@@ -127,10 +127,10 @@ public class Task {
 	public void setUserLastName(String userLastNameS) {
 		userLastName = userLastNameS;
 	}
-
+*/
 	@Override
 	public String toString() {
-		return "Task{" + "id=" + taskId + ", room=" + roomNumber + ", name=" + userFirstName + '}';
+		return "Task{" + "id=" + taskId + ", room=" + "" + ", name=" + "" + '}';
 	}
 	
 public Task() {

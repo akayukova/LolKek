@@ -12,90 +12,61 @@ public class Master {
 	
 	@Id
 	@Column(name = "master_id")
-	@GeneratedValue
+    @GeneratedValue
 	private Integer masterId;
 	
-	@Column(name = "first_name")
-	private String firstName;
+	@Column(name = "name")
+	private String name;
+	
 
-	@Column(name = "last_name")
-	private String lastName;
+	@Column(name = "specialization")
+	private String spec;
 
-	@Column(name = "telephon_number")
-	private String telephonNumber;
-
-	@Column(name = "login")
+	/*@Column(name = "login")
 	private String login;
 	
 	@Column(name = "password")
-	private String password;
+	private String password;*/
 	
-	@Column(name = "department_id")
-	private Integer departmentId;
+	@Column(name = "timetable")
+	private Integer timetable;
 	
-	//Getters
-	
+	//Getters	
+	@Override
+	public String toString() {
+		return "Master{" + "id=" + masterId + ", Name=" + name + ", Specialization=" + spec + '}';
+	}
+
 	public Integer getMasterId() {
 		return masterId;
 	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public String getTelephonNumber() {
-		return telephonNumber;
-	}
-	
-	public String getLogin() {
-		return login;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public Integer getDepartmentId() {
-		return departmentId;
-	}
-	
-	//Setters
-	
-	public void setMasterId(int masterId) {
+
+	public void setMasterId(Integer masterId) {
 		this.masterId = masterId;
 	}
-	
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+
+	public String getName() {
+		return name;
 	}
-	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public void setTelephonNumber(String telephonNumber) {
-		this.telephonNumber = telephonNumber;
+
+	public String getSpec() {
+		return spec;
 	}
-	
-	public void setLogin(String login) {
-		this.login = login;
+
+	public void setSpec(String spec) {
+		this.spec = spec;
 	}
-	
-	public void setPassword(String password) {
-		this.password = password;
+
+	public Integer getTimetable() {
+		return timetable;
 	}
-	
-	public void setDepartmentId(Integer departmentId) {
-		this.departmentId = departmentId;
-	}
-	
-	@Override
-	public String toString() {
-		return "Master{" + "id=" + masterId + ", Name=" + firstName + ", Soname=" + lastName + '}';
+
+	public void setTimetable(Integer timetable) {
+		this.timetable = timetable;
 	}
 	
 }

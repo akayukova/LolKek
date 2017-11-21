@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import ru.yandex.startapp.domain.Master;
@@ -14,19 +13,18 @@ import ru.yandex.startapp.dao.*;
 public class MasterServiceImpl implements MasterService{
 
 	@Autowired
-    private MasterDao masterDao = new MasterDaoImpl();
+    private MasterDao masterDao;
 	
 	@Transactional
-	public void addMaster(Master master) throws SQLException {
-		System.out.println(master + " MasterServiceImpl");
+	public void addMaster(Master master) {
+		System.out.println("in maserDAO");
 		masterDao.addMaster(master);
-		
 	}
 
-	@Transactional
+	/*@Transactional
 	public List<Master> listMaster() {
 		return masterDao.listMaster();
-	}
+	}*/
 
 	@Transactional
 	public void removeMaster(Integer id) {

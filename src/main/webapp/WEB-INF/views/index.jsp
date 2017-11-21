@@ -21,9 +21,6 @@
     
 	<form action="/index/form" method="POST">
 		<table>
-			<tr><td>REQUEST_ID</td><td><input name="taskId" type="int" /></td></tr>
-			<tr><td>MASTER_ID</td><td><input name="masterId" type="text" /></td></tr>
-			<tr><td>CASE_ID</td><td><input name="caseId" type="text" /></td></tr>
 			<tr><td>CASE_TEXT</td><td><input name="caseText" type="text" /></td></tr>
 			<tr><td>CASE_STATUS</td><td><input name="caseStatus" type="text" /></td></tr>
 			<tr><td>CASE_DURING_TIME</td><td><input name="caseExecuteBefore" type="text" /></td></tr>

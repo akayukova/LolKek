@@ -22,12 +22,13 @@
 	<form action="/service/form" method="POST">
 		<table>
 			
-			<tr><td>NAME</td><td><input name="firstName" type="text" /></td></tr>
-			<tr><td>SONAME</td><td><input name="lastName" type="text" /></td></tr>
-			<tr><td>TELEPHONE</td><td><input name="telephonNumber" type="text" /></td></tr>
-			<tr><td>LOGIN</td><td><input name="login" type="text" /></td></tr>
+			<tr><td>NAME</td><td><input name="name" type="text" /></td></tr>
+			<tr><td>SPECIALIZATION</td><td><input name="spec" type="text" /></td></tr>
+			<tr><td>TAMETABLE</td><td><input name="timetable" type="text" /></td></tr>
+			<!-- <tr><td>TELEPHONE</td><td><input name="telephonNumber" type="text" /></td></tr> -->
+			<!-- <tr><td>LOGIN</td><td><input name="login" type="text" /></td></tr>
 			<tr><td>PASSWORD</td><td><input name="password" type="text" /></td></tr>
-			<tr><td>DEP_ID</td><td><input name="departmentId" type="text" /></td></tr>
+			<tr><td>DEP_ID</td><td><input name="departmentId" type="text" /></td></tr> -->
 		
 			<tr><td></td><td><input type="submit" /></td></tr>
 		</table>
