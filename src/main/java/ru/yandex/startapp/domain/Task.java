@@ -1,141 +1,116 @@
 package ru.yandex.startapp.domain;
 
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "task")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "tasks")
 public class Task {
-	
-	
+
 	@Id
 	@Column(name = "task_id")
 	@GeneratedValue
-	private Long taskId;
+	private Integer taskId;
 
 	@Column(name = "master_id")
-	private Long masterId;
+	private Integer masterId;
 
 	@Column(name = "case_id")
-	private Long caseId;
+	private Integer caseId;
 
-/*	@Column(name = "case_text")
-	private String caseText;
+	@Column(name = "room")
+	private String room;
 
-	@Column(name = "case_status")
-	private String caseStatus;
+	@ManyToOne (fetch = FetchType.EAGER)
+	@JoinColumn(name = "master_id", insertable = false, updatable = false)
+	private Master master;
 
-	@Column(name = "case_execute_before")
-	private String caseExecuteBefore;
+	@Column(name = "description")
+	private String description;
 
-	@Column(name = "room_number")
-	private String roomNumber;
+	@Column(name = "priority")
+	private int priority;
 
-	@Column(name = "user_email")
-	private String userEmail;
-
-	@Column(name = "user_first_name")
-	private String userFirstName;
-
-	@Column(name = "user_last_name")
-	private String userLastName;*/
-
-	// Getters
-
-	public Long getTaskId() {
+	@Column(name = "status")
+	private boolean status;
+	
+	
+	public Integer getTaskId() {
 		return taskId;
 	}
 
-	public Long getMasterId() {
+	public Integer getMasterId() {
 		return masterId;
 	}
 
-	public Long getCaseId() {
+	public Integer getCaseId() {
 		return caseId;
 	}
 
-	/*public String getCaseText() {
-		return caseText;
-	}
+	
 
-	public String getCaseStatus() {
-		return caseStatus;
-	}
-
-	public String getCaseExecuteBefore() {
-		return caseExecuteBefore;
-	}
-
-	public String getRoomNumber() {
-		return roomNumber;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public String getUserFirstName() {
-		return userFirstName;
-	}
-
-	public String getUserLastName() {
-		return userLastName;
-	}*/
-
-	// --- Setters
-
-	public void setTaskId(Long taskIdS) {
+	public void setTaskId(Integer taskIdS) {
 		taskId = taskIdS;
 	}
 
-	public void setMasterId(Long masterIdS) {
+	public void setMasterId(Integer masterIdS) {
 		masterId = masterIdS;
 	}
 
-	public void setCaseId(Long caseIdS) {
+	public void setCaseId(Integer caseIdS) {
 		caseId = caseIdS;
 	}
 
-	/*public void setCaseText(String caseTextS) {
-		caseText = caseTextS;
+	
+	public String getRoom() {
+		return room;
 	}
 
-	public void setCaseStatus(String caseStatusS) {
-		caseStatus = caseStatusS;
+	public void setRoom(String room) {
+		this.room = room;
 	}
 
-	public void setCaseExecuteBefore(String caseExecuteBeforeS) {
-		caseExecuteBefore = caseExecuteBeforeS;
+	public Master getMaster() {
+		return master;
 	}
 
-	public void setRoomNumber(String roomNumberS) {
-		roomNumber = roomNumberS;
+	public void setMaster(Master master) {
+		this.master = master;
 	}
 
-	public void setUserEmail(String userEmailS) {
-		userEmail = userEmailS;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUserFirstName(String userFirstNameS) {
-		userFirstName = userFirstNameS;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public void setUserLastName(String userLastNameS) {
-		userLastName = userLastNameS;
+	public int getPriority() {
+		return priority;
 	}
-*/
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Task{" + "id=" + taskId + ", room=" + "" + ", name=" + "" + '}';
 	}
-	
-public Task() {
-		
+
+	public Task() {
+
 	}
-	
 
 }

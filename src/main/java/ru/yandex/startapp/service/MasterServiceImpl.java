@@ -10,26 +10,32 @@ import ru.yandex.startapp.domain.Master;
 import ru.yandex.startapp.dao.*;
 
 @Service
-public class MasterServiceImpl implements MasterService{
+public class MasterServiceImpl implements MasterService {
 
 	@Autowired
-    private MasterDao masterDao;
-	
+	private MasterDao masterDao;
+
 	@Transactional
 	public void addMaster(Master master) {
 		System.out.println("in maserDAO");
 		masterDao.addMaster(master);
 	}
 
-	/*@Transactional
+	@Transactional
 	public List<Master> listMaster() {
 		return masterDao.listMaster();
-	}*/
+	}
 
 	@Transactional
 	public void removeMaster(Integer id) {
 		masterDao.removeMaster(id);
-		
+
+	}
+
+	@Transactional
+	public Master getMasterById(Integer id) {
+		return masterDao.getMasterById(id);
+
 	}
 
 }

@@ -1,12 +1,13 @@
 package ru.yandex.startapp.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.*;
+
+import javax.persistence.*;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "masters")
 public class Master {
 	
@@ -22,14 +23,11 @@ public class Master {
 	@Column(name = "specialization")
 	private String spec;
 
-	/*@Column(name = "login")
-	private String login;
-	
-	@Column(name = "password")
-	private String password;*/
-	
 	@Column(name = "timetable")
-	private Integer timetable;
+	private String timetable;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "master")	
+	private Set<Task> tasks = new HashSet<Task>();
 	
 	//Getters	
 	@Override
@@ -61,11 +59,11 @@ public class Master {
 		this.spec = spec;
 	}
 
-	public Integer getTimetable() {
+	public String getTimetable() {
 		return timetable;
 	}
 
-	public void setTimetable(Integer timetable) {
+	public void setTimetable(String timetable) {
 		this.timetable = timetable;
 	}
 	

@@ -9,9 +9,11 @@ public interface MasterService {
 	
 	public void addMaster(Master master);
 
-	/*public List<Master> listMaster();
-*/
+	public List<Master> listMaster();
+
 	public void removeMaster(Integer id);
+	
+	public Master getMasterById(Integer masterId); 	
 	
 
 }

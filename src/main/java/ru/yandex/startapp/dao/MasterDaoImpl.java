@@ -26,6 +26,12 @@ public class MasterDaoImpl implements MasterDao {
 		return sessionFactory.getCurrentSession().createQuery("from Master")
 				.list();
 	}
+	
+	public Master getMasterById(Integer masterId) {
+		// TODO Auto-generated method stub
+		return (Master) sessionFactory.openSession().load(Master.class, masterId);
+
+	}
 
 	@Override
 	public void removeMaster(Integer id) {
