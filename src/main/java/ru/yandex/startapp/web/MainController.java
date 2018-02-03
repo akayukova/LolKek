@@ -4,6 +4,15 @@ import ru.yandex.startapp.service.*;
 import ru.yandex.startapp.domain.*;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,58 +26,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/api")
 public class MainController {
 
 	@Autowired
 	private MasterService masterService;
 	@Autowired
-	private TaskService taskService;
-
-	@RequestMapping("/home")
-	public String main(Model ui) {
-		System.out.println("main");
-		ui.addAttribute("newTask", new Task());
-		return "home";
-	}
-
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String taskListGet(Model ui) {
-		ui.addAttribute("newTask", new Task());
-
-		return "index";
-	}
-
-	@RequestMapping(value = "index/form", method = RequestMethod.POST)
-	public String taskListPost(Task task, BindingResult br, Model ui) {
-		// System.out.println(br.toString() + "BR ");
-		// System.out.println(task.toString() + "task ");
-		taskService.addTask(task);
-		ui.addAttribute("newTask", task);
-		return "service";
-	}
-
-	@RequestMapping(value = "/service", method = RequestMethod.GET)
-	public String masterListGet(Model ui) {
-		ui.addAttribute("newMaster", new Master());
-		System.out.println("masterListGet");
-
-		return "service";
-	}
-
-	// returns JSON!!!
+	private TaskService taskService;	
+	
+	/*@Autowired
+	@Qualifier("authenticationManager")
+    private AuthenticationManager authManager;*/
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Master> mastersGetJSON(/* @PathVariable String id */) {
+	public @ResponseBody List<Master> mastersGetJSON() {
 		List<Master> masters = masterService.listMaster();
 		return masters;
 	}
 
 	@RequestMapping(value = "/test1", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Task> tasksGetJSON(/* @PathVariable String id */) {
+	public @ResponseBody List<Task> tasksGetJSON() {
 		List<Task> tasks = taskService.listTask();
 		return tasks;
 	}
@@ -80,14 +65,13 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/tasks", method = RequestMethod.GET, produces = "application/json", params = "id")
-	public @ResponseBody Task getTaskById(/* @PathVariable String id */ @RequestParam("id") String id) {
-		Task task = taskService.getTaskById(Integer.parseInt(id));
-		// System.out.println(task.getMaster().getName());
+	public @ResponseBody Task getTaskById(@RequestParam("id") String id) {
+		Task task = taskService.getTaskById(Integer.parseInt(id));		
 		return task;
 	}
 
 	@RequestMapping(value = "/master", method = RequestMethod.GET, produces = "application/json", params = "id")
-	public @ResponseBody Master getMasterById(/* @PathVariable String id */ @RequestParam("id") String id) {
+	public @ResponseBody Master getMasterById(@RequestParam("id") String id) {
 		Master master = masterService.getMasterById(Integer.parseInt(id));
 		// System.out.println(task.getMaster().getName());
 		return master;
@@ -95,8 +79,7 @@ public class MainController {
 
 	@RequestMapping(value = "/test2", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	@ResponseBody
-	public Task addTask(@RequestBody Task task) {
-		// logger.debug(task.toString());
+	public Task addTask(@RequestBody Task task) {		
 		taskService.addTask(task);
 		return task;
 	}
@@ -104,26 +87,24 @@ public class MainController {
 	@RequestMapping(value = "/editTask", method = RequestMethod.POST, headers = {
 			"Content-type=application/json" }, produces = "application/json")
 	@ResponseBody
-	public Task editTask(@RequestBody Task task) {
-		// logger.debug(task.toString());
-		taskService.editTask(task);
-		/*
-		 * task = taskService.getTaskById(task.getTaskId());
-		 * System.out.println(task.getMaster().getName());
-		 */
+	public Task editTask(@RequestBody Task task) {		
+		taskService.editTask(task);		
 		return task;
 	}
-
-	/*
-	 * @RequestMapping(value = "service/form", method = RequestMethod.POST) public
-	 * String masterListPost(Master master, BindingResult br, Model ui) {
-	 * System.out.println(br.toString() + "BR ");
-	 * System.out.println(master.toString() + "task ");
-	 * 
-	 * masterService.addMaster(master);
-	 * 
-	 * ui.addAttribute("newMaster", master);
-	 * 
-	 * return "service";
-	 */
+	
+	/*@RequestMapping(value = "/login", method = RequestMethod.GET, 
+			produces = "application/json")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void login(@RequestBody Admin admin, HttpServletResponse response) {
+		try {
+			System.out.println("loginbefore" + admin.getUsername());
+			SecurityContextHolder.getContext().setAuthentication(authManager.authenticate(
+					new UsernamePasswordAuthenticationToken(
+							admin.getUsername(), admin.getPassword())));			
+			System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
+		} catch(AuthenticationException e) {
+			System.out.println("Auth exception" + e.toString());
+		}
+	}*/
+	
 }
