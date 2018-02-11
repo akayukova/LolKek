@@ -19,18 +19,16 @@
 	<!-- Root context -->
 	
 	<context:component-scan base-package="ru.yandex.startapp.dao"/>
-	<context:component-scan base-package="ru.yandex.startapp.service"/>
-	
-	
-	
-	
+	<context:component-scan base-package="ru.yandex.startapp.service"/>	
 	
 	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
 	<import resource="data.xml"/>
 	
 	
 	<!-- Файл с настройками безопасности -->
-	<context:component-scan base-package="config"/>
+	<!-- <context:component-scan base-package="config"/> -->
+	<bean class="config.SecurityConfig" />
+	<bean class="config.SecurityBeanConfig" />
 	<context:component-scan base-package="component"/>
 	
 </beans>

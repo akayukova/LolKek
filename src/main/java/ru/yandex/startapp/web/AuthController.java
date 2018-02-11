@@ -31,16 +31,21 @@ public class AuthController {
 
 	@RequestMapping(method = RequestMethod.POST)
     @ResponseBody public AuthResponse auth(@RequestBody AuthParams params) 
-    		throws AuthenticationException {		
+    		throws AuthenticationException {
+		System.out.println("AuthControlle!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         final UsernamePasswordAuthenticationToken loginToken = params.toAuthenticationToken();
+        System.out.println("LogTok!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         final Authentication authentication = authenticationManager.authenticate(loginToken);
+        System.out.println("Auth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+        System.out.println("setauth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         UserDetails user = userDetailsService.loadUserByUsername(
         		SecurityContextHolder.getContext().getAuthentication().getName());
         
-            final String token = tokenHandler.createTokenForUser(user);
-            return new AuthResponse(token);		
+        System.out.println("User " + user.getUsername());
+        final String token = tokenHandler.createTokenForUser(user);
+        System.out.println("OK");  
+        return new AuthResponse(token);		
     }
 
 	private static final class AuthParams {
