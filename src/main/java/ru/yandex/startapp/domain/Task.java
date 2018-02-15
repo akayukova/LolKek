@@ -1,13 +1,16 @@
 package ru.yandex.startapp.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "tasks")
-public class Task {
+public class Task{
 
 	@Id
 	@Column(name = "task_id")

@@ -1,5 +1,9 @@
 package ru.yandex.startapp.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
@@ -43,9 +47,10 @@ public class AuthController {
         		SecurityContextHolder.getContext().getAuthentication().getName());
         
         System.out.println("User " + user.getUsername());
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         final String token = tokenHandler.createTokenForUser(user);
         System.out.println("OK");  
-        return new AuthResponse(token);		
+        return new AuthResponse(token, authorities);		
     }
 
 	private static final class AuthParams {
@@ -83,13 +88,23 @@ public class AuthController {
 
 	private static final class AuthResponse {
 		private String token;
-
+		private Collection<? extends GrantedAuthority> authorities;
+		
 		public AuthResponse() {
 		}
 
-		public AuthResponse(String token) {
+		public AuthResponse(String token, Collection<? extends GrantedAuthority> authorities) {
 			this.token = token;
+			this.authorities = authorities;
 		}
+
+		public Collection<? extends GrantedAuthority> getAuthorities() {
+			return authorities;
+		}
+
+		public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+			this.authorities = authorities;
+		}		
 
 		public String getToken() {
 			return token;

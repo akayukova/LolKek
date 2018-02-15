@@ -66,6 +66,7 @@ public class MainController {
 
 	@RequestMapping(value = "/tasks", method = RequestMethod.GET, produces = "application/json", params = "id")
 	public @ResponseBody Task getTaskById(@RequestParam("id") String id) {
+		System.out.println("task " + id);
 		Task task = taskService.getTaskById(Integer.parseInt(id));		
 		return task;
 	}
