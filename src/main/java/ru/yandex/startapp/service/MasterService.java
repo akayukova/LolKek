@@ -15,5 +15,7 @@ public interface MasterService {
 	
 	public Master getMasterById(Integer masterId); 	
 	
+	public Master getMasterByLogin(String login);
+	
 
 }

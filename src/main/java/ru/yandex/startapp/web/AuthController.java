@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import component.TokenHandler;
+import ru.yandex.startapp.service.MasterService;
 
 @Controller
 @RequestMapping("api/auth")
@@ -22,15 +23,18 @@ public class AuthController {
 	private final AuthenticationManager authenticationManager;
 	private final TokenHandler tokenHandler;	
 	private final UserDetailsService userDetailsService;
+	private final MasterService masterService;
 
 	@Autowired
 	AuthController(
 			AuthenticationManager authenticationManager, 
 			TokenHandler tokenHandler,			
-			UserDetailsService userDetailsService) {
+			UserDetailsService userDetailsService,
+			MasterService masterService) {
 		this.authenticationManager = authenticationManager;
 		this.tokenHandler = tokenHandler;		
 		this.userDetailsService = userDetailsService;
+		this.masterService = masterService;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -50,7 +54,8 @@ public class AuthController {
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         final String token = tokenHandler.createTokenForUser(user);
         System.out.println("OK");  
-        return new AuthResponse(token, authorities);		
+        return new AuthResponse(token, authorities, 
+        		masterService.getMasterByLogin(user.getUsername()).getMasterId());		
     }
 
 	private static final class AuthParams {
@@ -89,13 +94,15 @@ public class AuthController {
 	private static final class AuthResponse {
 		private String token;
 		private Collection<? extends GrantedAuthority> authorities;
+		private int id;
 		
 		public AuthResponse() {
 		}
 
-		public AuthResponse(String token, Collection<? extends GrantedAuthority> authorities) {
+		public AuthResponse(String token, Collection<? extends GrantedAuthority> authorities, int id) {
 			this.token = token;
 			this.authorities = authorities;
+			this.id = id;
 		}
 
 		public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -113,5 +120,15 @@ public class AuthController {
 		public void setToken(String token) {
 			this.token = token;
 		}
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+		
+		
 	}
 }

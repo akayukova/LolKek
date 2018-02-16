@@ -59,7 +59,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/masters", method = RequestMethod.GET, produces = "application/json", params = "id")
-	public @ResponseBody List<Task> tasksForMastersGetJSON(@RequestParam("id") String id) {
+	public @ResponseBody List<Task> tasksForMasterGetJSON(@RequestParam("id") String id) {
 		List<Task> tasks = taskService.getTasksByMaster(masterService.getMasterById(Integer.parseInt(id)));
 		return tasks;
 	}

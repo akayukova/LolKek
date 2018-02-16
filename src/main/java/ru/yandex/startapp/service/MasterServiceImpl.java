@@ -38,4 +38,10 @@ public class MasterServiceImpl implements MasterService {
 
 	}
 
+	@Override
+	public Master getMasterByLogin(String login) {
+		// TODO Auto-generated method stub
+		return masterDao.getMasterByLogin(login);
+	}
+
 }
