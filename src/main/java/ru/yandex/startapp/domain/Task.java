@@ -7,11 +7,10 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "tasks")
-public class Task{
+public class Task {
 
 	@Id
 	@Column(name = "task_id")
@@ -23,15 +22,15 @@ public class Task{
 
 	@Column(name = "case_id")
 	private Integer caseId;
-	
+
 	@NotNull
 	@Column(name = "room")
 	private String room;
 
-	@ManyToOne (fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "master_id", insertable = false, updatable = false)
 	private Master master;
-	
+
 	@NotNull
 	@Column(name = "description")
 	private String description;
@@ -41,8 +40,11 @@ public class Task{
 
 	@Column(name = "status")
 	private boolean status;
-	
-	
+
+	@NotNull
+	@Column(name = "building")
+	private String building;
+
 	public Integer getTaskId() {
 		return taskId;
 	}
@@ -54,8 +56,6 @@ public class Task{
 	public Integer getCaseId() {
 		return caseId;
 	}
-
-	
 
 	public void setTaskId(Integer taskIdS) {
 		taskId = taskIdS;
@@ -69,7 +69,6 @@ public class Task{
 		caseId = caseIdS;
 	}
 
-	
 	public String getRoom() {
 		return room;
 	}
@@ -108,6 +107,14 @@ public class Task{
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
 	}
 
 	@Override
