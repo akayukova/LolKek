@@ -87,8 +87,7 @@ public class MainController {
 
 	@RequestMapping(value = "/test2", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	@ResponseBody
-	public Task addTask(@RequestBody Task task) {	
-		System.out.println(task.getBuilding());
+	public Task addTask(@RequestBody Task task) {		
 		Set<ConstraintViolation<Task>> violations = validator.validate(task);
 
 	    if (!violations.isEmpty()) {
