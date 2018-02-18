@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import component.AuthenticationFilter;
+import ru.yandex.startapp.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -32,75 +33,65 @@ import component.AuthenticationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AuthenticationFilter authenticationFilter;	
-	
-	 /*@Autowired
-	    public SecurityConfig(AuthenticationFilter authenticationFilter) {
-	        super(true);
-	        this.authenticationFilter = authenticationFilter;
-	    }*/
-	  	 
+	private AuthenticationFilter authenticationFilter;
+
+	@Autowired
+	private UserService userService;
+
 	public SecurityConfig() {
 		super(true);
 	}
-	
-	/*public void setup(AuthenticationFilter authenticationFilter) {
-		this.authenticationFilter = authenticationFilter;
-	}
-*/
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-				
-		http.csrf().disable()
-        .exceptionHandling().and()
-        .anonymous().and()
-        .servletApi();
 
-http.authorizeRequests().antMatchers("/api/auth").permitAll()
-        //.antMatchers(HttpMethod.GET, "/transactions/list").hasRole(AUTHORIZED_ROLE) // maybe has role
-        .antMatchers(HttpMethod.GET, "/api/test1").hasAuthority("ADMIN").anyRequest().permitAll();  
-  //      .and()
-//        .exceptionHandling()
-//        .authenticationEntryPoint(new Http401AuthenticationEntryPoint("'Bearer token_type=\"JWT\"'"));		
+		http.csrf().disable().exceptionHandling().and().anonymous().and().servletApi();
+
+		http.authorizeRequests().antMatchers("/api/auth").permitAll().antMatchers("/api/test2").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/test*").hasAuthority("ADMIN")
+				.antMatchers(HttpMethod.GET, "/api/tasks*").hasAnyAuthority("ADMIN", "MASTER")
+				.antMatchers(HttpMethod.GET, "/api/master*").hasAnyAuthority("MASTER", "ADMIN").anyRequest()
+				.permitAll();
 
 		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-	}	
-	
+	}
+
 	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").authorities("ADMIN");
-    }
-	
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		List<ru.yandex.startapp.domain.User> usersList = userService.listUser();
+
+		for (int i = 0; i < usersList.size(); i++) {
+			auth.inMemoryAuthentication().withUser(usersList.get(i).getLogin()).password(usersList.get(i).getPassword())
+					.authorities(usersList.get(i).getAuthority());
+
+			System.out.println(usersList.get(i).getLogin());
+		}
+	}
+
 	@Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }	
-	
-	
-	
-	/*@Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }*/
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-	
-	/*@Bean 
-	public UserDetailsService userDetailsService() {
-		List<UserDetails> users = new ArrayList<UserDetails>();
-		System.out.println("KuKuUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU!");
-	    users.add(new User("admin", "admin", Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))));	    
-	      InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(users);	      
-	      return manager;
-	   }*/
-	
+	/*
+	 * @Bean
+	 * 
+	 * @Override public AuthenticationManager authenticationManagerBean() throws
+	 * Exception { return super.authenticationManagerBean(); }
+	 */
 
-    /*.credentialsExpired(true)
-    .accountExpired(true)
-    .accountLocked(true)*/
-    
-	
-	
+	/*
+	 * @Bean public UserDetailsService userDetailsService() { List<UserDetails>
+	 * users = new ArrayList<UserDetails>();
+	 * System.out.println("KuKuUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU!"); users.add(new
+	 * User("admin", "admin", Collections.singletonList(new
+	 * SimpleGrantedAuthority("ROLE_ADMIN")))); InMemoryUserDetailsManager manager =
+	 * new InMemoryUserDetailsManager(users); return manager; }
+	 */
+
+	/*
+	 * .credentialsExpired(true) .accountExpired(true) .accountLocked(true)
+	 */
+
 }
