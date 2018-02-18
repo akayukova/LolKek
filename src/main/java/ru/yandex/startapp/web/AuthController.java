@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import component.TokenHandler;
+import ru.yandex.startapp.domain.User;
+import ru.yandex.startapp.service.MasterService;
 import ru.yandex.startapp.service.UserService;
 
 @Controller
@@ -22,15 +24,16 @@ public class AuthController {
 	private final TokenHandler tokenHandler;
 	private final UserDetailsService userDetailsService;
 	private final UserService userService;
-	private final MasterService userService;
+	private final MasterService masterService;
 
 	@Autowired
 	AuthController(AuthenticationManager authenticationManager, TokenHandler tokenHandler,
-			UserDetailsService userDetailsService, UserService userService) {
+			UserDetailsService userDetailsService, UserService userService, MasterService masterService) {
 		this.authenticationManager = authenticationManager;
 		this.tokenHandler = tokenHandler;
 		this.userDetailsService = userDetailsService;
 		this.userService = userService;
+		this.masterService = masterService;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -45,12 +48,13 @@ public class AuthController {
 		System.out.println("setauth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		UserDetails user = userDetailsService
 				.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
 		System.out.println("User " + user.getUsername());
 		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		final String token = tokenHandler.createTokenForUser(user);
 		System.out.println("OK");
-		return new AuthResponse(token, authorities, userService.getUserByLogin(user.getUsername()).getUserId());
+		User userDomain = userService.getUserByLogin(user.getUsername());
+		return new AuthResponse(token, authorities, userDomain.getUserId(),
+				masterService.getMasterById(userDomain.getUserId()).getName());
 	}
 
 	private static final class AuthParams {
@@ -90,14 +94,24 @@ public class AuthController {
 		private String token;
 		private Collection<? extends GrantedAuthority> authorities;
 		private int id;
+		private String name;
 
 		public AuthResponse() {
 		}
 
-		public AuthResponse(String token, Collection<? extends GrantedAuthority> authorities, int id) {
+		public AuthResponse(String token, Collection<? extends GrantedAuthority> authorities, int id, String name) {
 			this.token = token;
 			this.authorities = authorities;
 			this.id = id;
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 
 		public Collection<? extends GrantedAuthority> getAuthorities() {
