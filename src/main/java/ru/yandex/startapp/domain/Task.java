@@ -3,6 +3,7 @@ package ru.yandex.startapp.domain;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,14 +23,16 @@ public class Task{
 
 	@Column(name = "case_id")
 	private Integer caseId;
-
+	
+	@NotNull
 	@Column(name = "room")
 	private String room;
 
 	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name = "master_id", insertable = false, updatable = false)
 	private Master master;
-
+	
+	@NotNull
 	@Column(name = "description")
 	private String description;
 

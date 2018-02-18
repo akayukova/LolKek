@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -16,6 +18,7 @@ public class Master {
     @GeneratedValue
 	private Integer masterId;
 	
+	@NotNull
 	@Column(name = "name")
 	private String name;
 	

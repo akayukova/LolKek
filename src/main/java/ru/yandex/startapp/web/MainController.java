@@ -24,11 +24,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +46,8 @@ public class MainController {
 	private MasterService masterService;
 	@Autowired
 	private TaskService taskService;	
+	@Autowired
+	private Validator validator;
 	
 	/*@Autowired
 	@Qualifier("authenticationManager")
@@ -81,6 +88,12 @@ public class MainController {
 	@RequestMapping(value = "/test2", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	@ResponseBody
 	public Task addTask(@RequestBody Task task) {		
+		Set<ConstraintViolation<Task>> violations = validator.validate(task);
+
+	    if (!violations.isEmpty()) {
+	    	System.out.println("hello");
+	        throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+	    }
 		taskService.addTask(task);
 		return task;
 	}
@@ -88,7 +101,13 @@ public class MainController {
 	@RequestMapping(value = "/editTask", method = RequestMethod.POST, headers = {
 			"Content-type=application/json" }, produces = "application/json")
 	@ResponseBody
-	public Task editTask(@RequestBody Task task) {		
+	public Task editTask(@RequestBody Task task) {	
+		Set<ConstraintViolation<Task>> violations = validator.validate(task);
+		
+		if (!violations.isEmpty()) {
+	    	System.out.println("hello");
+	        throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+	    }
 		taskService.editTask(task);		
 		return task;
 	}
