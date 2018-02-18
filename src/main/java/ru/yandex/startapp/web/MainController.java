@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,14 +46,17 @@ public class MainController {
 	@Autowired
 	private MasterService masterService;
 	@Autowired
-	private TaskService taskService;	
+	private TaskService taskService;
 	@Autowired
 	private Validator validator;
-	
-	/*@Autowired
-	@Qualifier("authenticationManager")
-    private AuthenticationManager authManager;*/
-	
+
+	/*
+	 * @Autowired
+	 * 
+	 * @Qualifier("authenticationManager") private AuthenticationManager
+	 * authManager;
+	 */
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Master> mastersGetJSON() {
 		List<Master> masters = masterService.listMaster();
@@ -74,7 +78,7 @@ public class MainController {
 	@RequestMapping(value = "/tasks", method = RequestMethod.GET, produces = "application/json", params = "id")
 	public @ResponseBody Task getTaskById(@RequestParam("id") String id) {
 		System.out.println("task " + id);
-		Task task = taskService.getTaskById(Integer.parseInt(id));		
+		Task task = taskService.getTaskById(Integer.parseInt(id));
 		return task;
 	}
 
@@ -87,14 +91,15 @@ public class MainController {
 
 	@RequestMapping(value = "/test2", method = RequestMethod.POST, headers = { "Content-type=application/json" })
 	@ResponseBody
-	public Task addTask(@RequestBody Task task) {	
+	public Task addTask(@RequestBody Task task) {
 		System.out.println(task.getBuilding());
+		task.setTime(new Date());
 		Set<ConstraintViolation<Task>> violations = validator.validate(task);
 
-	    if (!violations.isEmpty()) {
-	    	System.out.println("hello");
-	        throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
-	    }
+		if (!violations.isEmpty()) {
+			System.out.println("hello");
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
 		taskService.addTask(task);
 		return task;
 	}
@@ -102,30 +107,23 @@ public class MainController {
 	@RequestMapping(value = "/editTask", method = RequestMethod.POST, headers = {
 			"Content-type=application/json" }, produces = "application/json")
 	@ResponseBody
-	public Task editTask(@RequestBody Task task) {	
+	public Task editTask(@RequestBody Task task) {
 		Set<ConstraintViolation<Task>> violations = validator.validate(task);
-		
+
 		if (!violations.isEmpty()) {
-	    	System.out.println("hello");
-	        throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
-	    }
-		taskService.editTask(task);		
+			System.out.println("hello");
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+		taskService.editTask(task);
 		return task;
 	}
-	
-	/*@RequestMapping(value = "/login", method = RequestMethod.GET, 
-			produces = "application/json")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void login(@RequestBody Admin admin, HttpServletResponse response) {
-		try {
-			System.out.println("loginbefore" + admin.getUsername());
-			SecurityContextHolder.getContext().setAuthentication(authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(
-							admin.getUsername(), admin.getPassword())));			
-			System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
-		} catch(AuthenticationException e) {
-			System.out.println("Auth exception" + e.toString());
-		}
-	}*/
-	
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/deleteTask", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Task deleteTask(@RequestBody Task task) {
+		taskService.removeTask(task.getTaskId());
+		return task;
+	}
+
 }

@@ -22,6 +22,7 @@ public class AuthController {
 	private final TokenHandler tokenHandler;
 	private final UserDetailsService userDetailsService;
 	private final UserService userService;
+	private final MasterService userService;
 
 	@Autowired
 	AuthController(AuthenticationManager authenticationManager, TokenHandler tokenHandler,

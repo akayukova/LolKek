@@ -16,6 +16,7 @@ public interface TaskDao {
 	
 	public Task getTaskById(Integer taskId);
 	
-	public List<Task> getTasksByMaster(Master master);
+	public List<Task> getTasksByMaster(Master master);	
+	
 
 }
