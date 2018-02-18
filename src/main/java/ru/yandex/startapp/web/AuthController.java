@@ -1,8 +1,6 @@
 package ru.yandex.startapp.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
@@ -14,49 +12,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import component.TokenHandler;
-import ru.yandex.startapp.service.MasterService;
+import ru.yandex.startapp.service.UserService;
 
 @Controller
 @RequestMapping("api/auth")
 public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
-	private final TokenHandler tokenHandler;	
+	private final TokenHandler tokenHandler;
 	private final UserDetailsService userDetailsService;
-	private final MasterService masterService;
+	private final UserService userService;
 
 	@Autowired
-	AuthController(
-			AuthenticationManager authenticationManager, 
-			TokenHandler tokenHandler,			
-			UserDetailsService userDetailsService,
-			MasterService masterService) {
+	AuthController(AuthenticationManager authenticationManager, TokenHandler tokenHandler,
+			UserDetailsService userDetailsService, UserService userService) {
 		this.authenticationManager = authenticationManager;
-		this.tokenHandler = tokenHandler;		
+		this.tokenHandler = tokenHandler;
 		this.userDetailsService = userDetailsService;
-		this.masterService = masterService;
+		this.userService = userService;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-    @ResponseBody public AuthResponse auth(@RequestBody AuthParams params) 
-    		throws AuthenticationException {
+	@ResponseBody
+	public AuthResponse auth(@RequestBody AuthParams params) throws AuthenticationException {
 		System.out.println("AuthControlle!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        final UsernamePasswordAuthenticationToken loginToken = params.toAuthenticationToken();
-        System.out.println("LogTok!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        final Authentication authentication = authenticationManager.authenticate(loginToken);
-        System.out.println("Auth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("setauth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        UserDetails user = userDetailsService.loadUserByUsername(
-        		SecurityContextHolder.getContext().getAuthentication().getName());
-        
-        System.out.println("User " + user.getUsername());
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-        final String token = tokenHandler.createTokenForUser(user);
-        System.out.println("OK");  
-        return new AuthResponse(token, authorities, 
-        		masterService.getMasterByLogin(user.getUsername()).getMasterId());		
-    }
+		final UsernamePasswordAuthenticationToken loginToken = params.toAuthenticationToken();
+		System.out.println("LogTok!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		final Authentication authentication = authenticationManager.authenticate(loginToken);
+		System.out.println("Auth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		System.out.println("setauth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		UserDetails user = userDetailsService
+				.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		System.out.println("User " + user.getUsername());
+		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		final String token = tokenHandler.createTokenForUser(user);
+		System.out.println("OK");
+		return new AuthResponse(token, authorities, userService.getUserByLogin(user.getUsername()).getUserId());
+	}
 
 	private static final class AuthParams {
 		private String username;
@@ -95,7 +89,7 @@ public class AuthController {
 		private String token;
 		private Collection<? extends GrantedAuthority> authorities;
 		private int id;
-		
+
 		public AuthResponse() {
 		}
 
@@ -111,7 +105,7 @@ public class AuthController {
 
 		public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 			this.authorities = authorities;
-		}		
+		}
 
 		public String getToken() {
 			return token;
@@ -128,7 +122,6 @@ public class AuthController {
 		public void setId(int id) {
 			this.id = id;
 		}
-		
-		
+
 	}
 }

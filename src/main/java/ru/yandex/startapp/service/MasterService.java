@@ -13,9 +13,6 @@ public interface MasterService {
 
 	public void removeMaster(Integer id);
 	
-	public Master getMasterById(Integer masterId); 	
+	public Master getMasterById(Integer masterId); 		
 	
-	public Master getMasterByLogin(String login);
-	
-
 }

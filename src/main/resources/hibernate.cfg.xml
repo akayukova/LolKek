@@ -7,5 +7,6 @@
 	<session-factory>
 		<mapping class="ru.yandex.startapp.domain.Master" />
 		<mapping class="ru.yandex.startapp.domain.Task" />
+		<mapping class="ru.yandex.startapp.domain.User" />
 	</session-factory>
 </hibernate-configuration>

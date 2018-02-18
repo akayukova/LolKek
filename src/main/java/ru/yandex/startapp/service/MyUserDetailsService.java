@@ -20,26 +20,26 @@ import ru.yandex.startapp.domain.Master;
 public class MyUserDetailsService implements UserDetailsService {
 
 	private UserDetailsService userDetailsService;
-	private List<Master> masters;
-	private List<UserDetails> users = new ArrayList<UserDetails>();	
+	private List<ru.yandex.startapp.domain.User> users;
+	private List<UserDetails> usersDet = new ArrayList<UserDetails>();	
 	
-	private MasterService masterService;
+	private UserService userService;
 	
 	@Autowired
-	public MyUserDetailsService(MasterService masterService) {
-		this.masterService = masterService;
+	public MyUserDetailsService(UserService userService) {
+		this.userService = userService;
 		System.out.println("®œ“¬ŒﬁÃ¿“‹!");
-		if (masterService == null)
+		if (userService == null)
 			System.out.println("NUUUUUUUUUUUUUUUUUUUUUUUUUUUUULLLLLLLMS");
-		masters = masterService.listMaster();		
-		if (masters == null)
+		users = userService.listUser();		
+		if (users == null)
 			System.out.println("NUUUUUUUUUUUUUUUUUUUUUUUUUUUUULLLLLLL");
-		for(int i=0;i<masters.size();i++) { 
-			users.add(new User(masters.get(i).getLogin(), 
-					masters.get(i).getPassword(), Collections.singletonList(
-					new SimpleGrantedAuthority(masters.get(i).getAuthority()))));			 
+		for(int i=0;i<users.size();i++) { 
+			usersDet.add(new User(users.get(i).getLogin(), 
+					users.get(i).getPassword(), Collections.singletonList(
+					new SimpleGrantedAuthority(users.get(i).getAuthority()))));			 
 			}		
-		this.userDetailsService = new InMemoryUserDetailsManager(users);
+		this.userDetailsService = new InMemoryUserDetailsManager(usersDet);
 	}
 
 	

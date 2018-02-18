@@ -41,15 +41,6 @@ public class MasterDaoImpl implements MasterDao {
 			sessionFactory.getCurrentSession().delete(master);
 		}
 		
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Master getMasterByLogin(String login) {
-		// TODO Auto-generated method stub
-		return (Master) sessionFactory.openSession().createQuery(
-				"FROM Master M WHERE M.login = :login").setString("login", login).
-				uniqueResult();
-	}
+	}	
 
 }

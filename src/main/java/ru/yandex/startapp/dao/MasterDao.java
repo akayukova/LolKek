@@ -14,8 +14,6 @@ public interface MasterDao {
 	
 	public Master getMasterById(Integer masterId);		
 
-	public void removeMaster(Integer id);
-	
-	public Master getMasterByLogin(String login);
+	public void removeMaster(Integer id);	
 	
 }

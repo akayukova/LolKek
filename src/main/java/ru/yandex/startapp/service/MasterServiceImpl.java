@@ -35,13 +35,6 @@ public class MasterServiceImpl implements MasterService {
 	@Transactional
 	public Master getMasterById(Integer id) {
 		return masterDao.getMasterById(id);
-
 	}
-
-	@Override
-	public Master getMasterByLogin(String login) {
-		// TODO Auto-generated method stub
-		return masterDao.getMasterByLogin(login);
-	}
-
+	
 }

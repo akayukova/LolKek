@@ -15,7 +15,7 @@ public class Master {
 	
 	@Id
 	@Column(name = "master_id")
-    @GeneratedValue
+    @GeneratedValue    
 	private Integer masterId;
 	
 	@NotNull
@@ -27,16 +27,8 @@ public class Master {
 	private String spec;	
 
 	@Column(name = "timetable")
-	private String timetable;
+	private String timetable;	
 	
-	@Column(name = "login")
-	private String login;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@Column(name = "authority")
-	private String authority;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "master")	
 	private Set<Task> tasks = new HashSet<Task>();
@@ -77,29 +69,6 @@ public class Master {
 
 	public void setTimetable(String timetable) {
 		this.timetable = timetable;
-	}
+	}	
 	
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
 }
