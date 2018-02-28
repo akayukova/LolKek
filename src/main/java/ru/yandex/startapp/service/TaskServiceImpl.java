@@ -11,13 +11,13 @@ import ru.yandex.startapp.domain.Master;
 import ru.yandex.startapp.domain.Task;
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
 	@Autowired
-    private TaskDao taskDao;
-	
+	private TaskDao taskDao;
+
 	@Transactional
 	public void addTask(Task task) {
-		taskDao.addTask(task);		
+		taskDao.addTask(task);
 	}
 
 	@Transactional
@@ -27,14 +27,14 @@ public class TaskServiceImpl implements TaskService{
 
 	@Transactional
 	public void removeTask(Integer id) {
-		taskDao.removeTask(id);		
+		taskDao.removeTask(id);
 	}
-	
+
 	@Transactional
 	public void editTask(Task task) {
 		taskDao.editTask(task);
-	}	
-	
+	}
+
 	@Transactional
 	public Task getTaskById(Integer id) {
 		return taskDao.getTaskById(id);
@@ -43,10 +43,7 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	@Transactional
 	public List<Task> getTasksByMaster(Master master) {
-		// TODO Auto-generated method stub
 		return taskDao.getTasksByMaster(master);
 	}
-	
-	
-	
+
 }

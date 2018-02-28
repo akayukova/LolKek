@@ -28,7 +28,6 @@
 	<!-- Файл с настройками безопасности -->
 	<!-- <context:component-scan base-package="config"/> -->
 	<bean class="config.SecurityConfig" />
-	<bean class="config.SecurityBeanConfig" />
 	<context:component-scan base-package="component"/>
 	
 </beans>

@@ -6,5 +6,5 @@ import org.springframework.security.core.Authentication;
 
 public interface TokenAuthenticationService {
 
-    Authentication getAuthentication(HttpServletRequest request);
+	Authentication getAuthentication(HttpServletRequest request);
 }

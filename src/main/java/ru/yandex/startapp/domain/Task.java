@@ -1,6 +1,5 @@
 package ru.yandex.startapp.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -45,9 +44,8 @@ public class Task {
 	@NotNull
 	@Column(name = "building")
 	private String building;
-	
-	@Column(name = "time", nullable = false, columnDefinition=
-			"DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+
+	@Column(name = "time", nullable = false, columnDefinition = "DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date time;
 
 	public Date getTime() {

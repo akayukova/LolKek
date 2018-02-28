@@ -36,5 +36,5 @@ public class MasterServiceImpl implements MasterService {
 	public Master getMasterById(Integer id) {
 		return masterDao.getMasterById(id);
 	}
-	
+
 }

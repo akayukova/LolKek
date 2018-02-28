@@ -255,8 +255,7 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlets</artifactId>
 			<version>9.4.8.v20171121</version>
-		</dependency>
-
+		</dependency>		
 
 	</dependencies>
 	<build>

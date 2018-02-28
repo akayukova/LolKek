@@ -3,12 +3,8 @@ package ru.yandex.startapp.service;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import component.TokenHandler;
@@ -17,7 +13,7 @@ import component.TokenHandler;
 public class TokenAuthenticationServiceImpl implements TokenAuthenticationService {
 
 	private final TokenHandler tokenHandler;
-	
+
 	@Autowired
 	TokenAuthenticationServiceImpl(TokenHandler tokenHandler) {
 		this.tokenHandler = tokenHandler;
@@ -25,7 +21,6 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
 
 	@Override
 	public Authentication getAuthentication(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		final String authHeader = request.getHeader("authorization");
 		if (authHeader == null)
 			return null;
